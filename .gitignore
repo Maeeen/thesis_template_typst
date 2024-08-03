@@ -1,0 +1,3 @@
+*.pdf
+!./documentation.pdf
+!./thesis.pdf
