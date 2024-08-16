@@ -116,27 +116,42 @@
 }
 
 
-/// --- Page counting untils ---
+// --- Page counting utils ---
+
+/// The resets the page counter number
 #let page-number-reset = counter(page).update(1)
+
+/// Shows the page numbers
 #let enable-counting = {
-  page-number-reset
   [#[]<enable-page-numbering>]
 }
 
-#let disable-counting = {
-  [#[]<disable-page-numbering>]
-  page-number-reset
+/// Hides the page numbers
+#let hide-counting = {
+  [#[]<hide-page-numbering>]
 }
 
-#let setup-counting = {
-  
+/// Setups the page numbers.
+/// ```typc
+/// #show: setup-page-counting
+/// ```
+#let setup-page-counting(r) = {
+  set page(footer: context {
+    let previous-enable-tags = query(selector(<enable-page-numbering>).before(here())).sorted(key: k => k.location().position().y)
+    let previous-hide-tags = query(selector(<hide-page-numbering>).before(here())).sorted(key: k => k.location().position().y)
+    if previous-enable-tags.len() == 0 {
+      return none
+    }
+    if previous-hide-tags.len() == 0 or previous-enable-tags.last().location().position().y > previous-hide-tags.last().location().position().y {
+      align(center)[#counter(page).display()]
+    }
+  })
+  r
 }
 
-/// --- Page breaks ---
+// --- Page breaks ---
 
 #let new_page(body) = {
   vertical-separator
   body
 }
-
-#let setup-

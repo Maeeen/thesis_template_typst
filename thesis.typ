@@ -1,15 +1,6 @@
 #import "./template/template.typ": *
 
-#set page(footer: context {
-  let previous-enable-tags = query(selector(<enable-page-numbering>).before(here())).sorted(key: k => k.position())
-  let previous-disable-tags = query(selector(<disable-page-numbering>).before(here())).sorted(key: k => k.position())
-  if previous-enable-tags.len() == 0 {
-    return none
-  }
-  if previous-disable-tags.len() == 0 or previous-enable-tags.last().location().position().y > previous-disable-tags.last().location().position().y {
-    align(center)[#counter(page).display()]
-  }
-})
+#show: setup-page-counting
 
 #title_page(
   title: "A wonderful thesis about the merits of scientific writing",
@@ -47,7 +38,7 @@
 #pagebreak(weak: true)
 #enable-counting
 #lorem(5000)
-#disable-counting
+#hide-counting
 
 = Disabling page counting
 #lorem(1000)

@@ -2,6 +2,8 @@
 
 Same as [HexHive's template](https://github.com/HexHive/thesis_template), but in Typst, plus or minus some typography details.
 
+This is a **work-in-progress** :warning:.
+
 ## Documentation
 
 The documentation of each function is available in the `documentation.pdf` file.
