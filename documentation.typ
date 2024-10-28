@@ -1,6 +1,7 @@
 #import "./template/template.typ": *
 #import "@preview/tidy:0.3.0"
 
+= Documentation for this template
 
 #let docs = tidy.parse-module(
   read("/template/template.typ"),

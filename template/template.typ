@@ -88,7 +88,7 @@
 }
 
 
-#let vertical-separator = v(2in)
+#let vertical-separator = v(1.5in)
 
 /// This function generates a dedication page for a document.
 /// *Example*:
@@ -121,13 +121,13 @@
 /// The resets the page counter number
 #let page-number-reset = counter(page).update(1)
 
-/// Shows the page numbers
-#let enable-counting = {
+/// Shows the page numbers for the current and following pages
+#let page-number-show = {
   [#[]<enable-page-numbering>]
 }
 
-/// Hides the page numbers
-#let hide-counting = {
+/// Hides the page numbers for the current and following pages
+#let page-number-hide = {
   [#[]<hide-page-numbering>]
 }
 
@@ -151,7 +151,26 @@
 
 // --- Page breaks ---
 
-#let new_page(body) = {
+#let new-page = {
+  pagebreak(weak: true)
   vertical-separator
-  body
+}
+
+// --- First page title ---
+
+/// Generates a new page with given title.
+/// - title (content): The title of the page.
+/// - outlined (bool): Whether the title should be outlined in the table of contents.
+#let page-title(title: [Abstract], outlined: true) = {
+  new-page
+  text(weight: "bold", size: 26pt, heading(numbering: none, outlined: outlined, title))
+  v(4em)
+}
+
+#let chapter(title: [Introduction]) = context {
+  new-page
+  counter(heading).step()
+  text(weight: "bold", size: 22pt, [Chapter #{counter(heading).display()}])
+  text(weight: "bold", size: 26pt, heading(title))
+  v(4em)
 }
