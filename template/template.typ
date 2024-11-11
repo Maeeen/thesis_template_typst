@@ -1,6 +1,9 @@
 /// This file defines multiple components that can be used
 /// to generate a document.
 
+// --- Utils ---
+#let in-outline = state("in-outline", false)
+
 
 /// This function generates a title page for a document. Sets the title, author, and date of the document.
 /// *Example*:
@@ -151,6 +154,7 @@
 
 // --- Page breaks ---
 
+/// Inserts a page break.
 #let new-page = {
   pagebreak(weak: true)
   vertical-separator
@@ -163,14 +167,61 @@
 /// - outlined (bool): Whether the title should be outlined in the table of contents.
 #let page-title(title: [Abstract], outlined: true) = {
   new-page
-  text(weight: "bold", size: 26pt, heading(numbering: none, outlined: outlined, title))
+  text(weight: "bold", size: 26pt, heading(numbering: none, outlined: outlined, strong(title)))
   v(4em)
 }
 
-#let chapter(title: [Introduction]) = context {
-  new-page
+/// Generates a new page with given title.
+/// - title (content): The title of the page.
+#let chapter(title: [Introduction], numbering_: "1.i.i") = {
   counter(heading).step()
-  text(weight: "bold", size: 22pt, [Chapter #{counter(heading).display()}])
-  text(weight: "bold", size: 26pt, heading(title))
-  v(4em)
+  let label = label("chapter-" + title)
+  context {
+    new-page
+    text(weight: "bold", size: 22pt, [
+      Chapter #{counter(heading).display()}
+      #label
+    ])
+    text(weight: "bold", size: 26pt, heading(context {
+      if in-outline.get() {
+        strong(numbering(numbering_, ..counter(heading).at(label)) + "  " + title)
+      } else {
+        title
+      }
+    }))
+    v(4em)
+  }
+}
+
+/// Generates a new subchapter with given title.
+/// - title (content): The title of the page.
+#let subchapter(title: [Sub-chapter], numbering_: "1.i.i") = {
+  counter(heading).step(level: 2)
+  let label = label("subchapter-" + title)
+  context [
+    #text(weight: "bold", size: 12pt, heading(context {
+      if in-outline.get() {
+        numbering(numbering_, ..counter(heading).at(label)) + "  " + title
+      } else [
+        #title
+      ]
+    }, level: 2))
+    #label
+  ]
+}
+
+
+/// Generates the outline of the document
+/// - title (content): The title of the outline.
+/// - args (..any): Any argument that can be passed to the `outline` component.
+#let generate-outline(title: "Contents", ..args) = {
+  page-title(title: title, outlined: false)
+  in-outline.update(true)
+  outline(
+    indent: 2em,
+    title: none,
+    fill: align(bottom, box(width: 1fr, height: 0.05em, fill: black)),
+    ..args
+  )
+  in-outline.update(false)
 }

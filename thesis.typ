@@ -69,14 +69,11 @@ design or implementation decision, and key results of your evaluation.
 For a doctoral thesis, you have to provide a French translation of the English
 abstract. For other projects this is optional.
 
-#page-title(title: "Contents", outlined: false)
-
-#outline(
-  title: none,
-  fill: none,
-)
+#generate-outline()
 
 #chapter(title: "Introduction")
+
+#subchapter(title: "Sub-chapter")
 
 The introduction is a longer writeup that gently eases the reader into your
 thesis. Use the first paragraph to discuss the setting. In the second paragraph
