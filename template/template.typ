@@ -173,7 +173,7 @@
 
 /// Generates a new page with given title.
 /// - title (content): The title of the page.
-#let chapter(title: [Introduction], numbering_: "1.i.i") = {
+#let chapter(title: [Introduction], numbering_: "1.1.1") = {
   counter(heading).step()
   let label = label("chapter-" + title)
   context {
@@ -195,7 +195,7 @@
 
 /// Generates a new subchapter with given title.
 /// - title (content): The title of the page.
-#let subchapter(title: [Sub-chapter], numbering_: "1.i.i") = {
+#let subchapter(title: [Sub-chapter], numbering_: "1.1.1") = {
   counter(heading).step(level: 2)
   let label = label("subchapter-" + title)
   context [
