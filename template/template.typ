@@ -203,7 +203,7 @@
       if in-outline.get() {
         numbering(numbering_, ..counter(heading).at(label)) + "  " + title
       } else [
-        #title
+        #{numbering(numbering_, ..counter(heading).at(label))} #title
       ]
     }, level: 2))
     #label
